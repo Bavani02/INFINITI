@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -14,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -41,7 +44,7 @@ public class DriverFactory {
 	public WebDriver initDriver(Properties prop) {
 
 		String browserName = prop.getProperty("browser");
-		
+
 //		if(System.getenv("browserName")!=null) {
 //			browserName = System.getenv("browserName");
 //		}
@@ -50,25 +53,51 @@ public class DriverFactory {
 		optionsManager = new OptionsManager(prop);
 
 		if (browserName.equalsIgnoreCase("chrome")) {
-			WebDriverManager.chromedriver().setup();
+
 			// driver = new ChromeDriver(optionsManager.optionsManager());
-			tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
 
-		} else if (browserName.equalsIgnoreCase("firefox")) {
-			WebDriverManager.firefoxdriver().setup();
-			// driver = new FirefoxDriver(optionsManager.getFirefoxOptions());
-			tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				// remote execution on grid:
+				init_remoteWebDriver("chrome");
+			} else {
+				// local execution:
+				WebDriverManager.chromedriver().setup();
+				tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
+			}
 
-		} else if (browserName.equalsIgnoreCase("safari")) {
+		}
+
+		else if (browserName.equalsIgnoreCase("firefox")) {
+
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				// remote execution on grid:
+				init_remoteWebDriver("firefox");
+			} else {
+				// local execution:
+				WebDriverManager.firefoxdriver().setup();
+				// driver = new FirefoxDriver(optionsManager.getFirefoxOptions());
+				tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+			}
+
+		}
+
+		else if (browserName.equalsIgnoreCase("safari")) {
 			// driver = new SafariDriver();
 			tlDriver.set(new SafariDriver());
 
 		}
 
 		else if (browserName.equalsIgnoreCase("edge")) {
-			WebDriverManager.edgedriver().setup();
-			// driver = new EdgeDriver();
-			tlDriver.set(new EdgeDriver());
+
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				// remote execution on grid:
+				init_remoteWebDriver("edge");
+			} else {
+				// local execution:
+				WebDriverManager.edgedriver().setup();
+				// driver = new FirefoxDriver(optionsManager.getFirefoxOptions());
+				tlDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
+			}
 
 		}
 
@@ -81,6 +110,43 @@ public class DriverFactory {
 		getDriver().manage().window().maximize();
 		getDriver().get(prop.getProperty("url"));
 		return getDriver();
+	}
+
+	/**
+	 * init remote webdriver on the basis of browser name
+	 * 
+	 * @param browserName
+	 */
+	private void init_remoteWebDriver(String browserName) {
+
+		System.out.println("===========Running tests on Selenium GRID - Remote Machine...." + browserName);
+
+		if (browserName.equals("chrome")) {
+			try {
+				tlDriver.set(
+						new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionsManager.getChromeOptions()));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		else if (browserName.equals("firefox")) {
+			try {
+				tlDriver.set(
+						new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionsManager.getFirefoxOptions()));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		else if (browserName.equals("edge")) {
+			try {
+				tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionsManager.getEdgeOptions()));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	public static synchronized WebDriver getDriver() {
@@ -101,7 +167,7 @@ public class DriverFactory {
 		// mvn clean install
 
 		String envName = System.getProperty("env");
-		//String envName = System.getenv("env");
+		// String envName = System.getenv("env");
 		System.out.println("Running test cases on environment: " + envName);
 
 		if (envName == null) {
@@ -156,8 +222,8 @@ public class DriverFactory {
 	 */
 	public static String getScreenshot(String methodName) {
 		File srcFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
-		//Users/naveenautomationlabs/Documents/workspace1/
-		String path = System.getProperty("user.dir")+"/screenshot/" + methodName + ".png";
+		// Users/naveenautomationlabs/Documents/workspace1/
+		String path = System.getProperty("user.dir") + "/screenshot/" + methodName + ".png";
 		File destination = new File(path);
 		try {
 			FileUtils.copyFile(srcFile, destination);
