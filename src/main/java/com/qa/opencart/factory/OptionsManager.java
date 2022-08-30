@@ -2,6 +2,7 @@ package com.qa.opencart.factory;
 
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -12,11 +13,15 @@ public class OptionsManager {
 	private FirefoxOptions fo;
 	private EdgeOptions eo;
 	
+	public static Logger log = Logger.getLogger(OptionsManager.class);
+
+	
 	public OptionsManager(Properties prop) {
 		this.prop = prop;
 	}
 	
 	public ChromeOptions getChromeOptions() {
+		log.info("adding chrome options....");
 		co = new ChromeOptions();
 		if(Boolean.parseBoolean(prop.getProperty("headless"))) co.addArguments("--headless");
 		if(Boolean.parseBoolean(prop.getProperty("incognito"))) co.addArguments("--incognito");
