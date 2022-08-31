@@ -57,9 +57,9 @@
 		</classes>
 	</test>
 
-	<test name="Product Search Test_ff_57">
+	<test name="Product Search Test_ff_92">
 		<parameter name="browser" value="firefox" />
-		<parameter name="browserversion" value="57.0" />
+		<parameter name="browserversion" value="92.0" />
 
 		<classes>
 			<class name="com.qa.opencart.tests.ProductSearchTest" />
