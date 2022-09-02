@@ -586,5 +586,9 @@ public class ElementUtil {
 		return element;
 
 	}
+	
+	public void isElementPresnt() {
+		System.out.println("element is present");
+	}
 
 }
