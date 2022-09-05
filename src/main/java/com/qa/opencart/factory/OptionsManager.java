@@ -41,7 +41,22 @@ public class OptionsManager {
 //			selenoidOptions.put("enableVNC", true);
 //			selenoidOptions.put("name", prop.getProperty("testname"));
 //			co.setCapability("selenoid:options", selenoidOptions);
+			 
+			//
+			 
+			 
+			 
+			 
 		}
+		
+		co.addArguments("--window-size=1280,800");
+		 co.addArguments("--disable-gpu");
+		 co.addArguments("--disable-setuid-sandbox");
+		 co.addArguments("--no-sandbox");	
+		 //co.addArguments("--headless");
+		 co.addArguments("--verbose");
+		 co.addArguments("--whitelisted-ips=");
+		 co.addArguments("--disable-extensions"); 
 
 		return co;
 	}

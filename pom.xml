@@ -30,7 +30,6 @@
 
 	<dependencies>
 
-
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
@@ -132,8 +131,8 @@
 					<reuseForks>true</reuseForks>
 					<argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
 					<suiteXmlFiles>
-						<suiteXmlFile>src/test/resources/testrunner/testng_regression.xml</suiteXmlFile>
-						<!-- <suiteXmlFile>${suiteXmlFile}</suiteXmlFile> -->
+						<!-- <suiteXmlFile>src/test/resources/testrunner/testng_regression.xml</suiteXmlFile> -->
+						 <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
 
 					</suiteXmlFiles>
 

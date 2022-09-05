@@ -22,6 +22,7 @@ public class ProductInfoPage {
 	private By productMetaData = By.xpath("(//div[@id='content']//ul[@class='list-unstyled'])[1]/li");
 	private By productPriceData = By.xpath("(//div[@id='content']//ul[@class='list-unstyled'])[2]/li");
 
+	
 	private Map<String, String> productMap;
 
 	// 2. const...

@@ -34,9 +34,10 @@ public class DriverFactory {
 	public OptionsManager optionsManager;
 
 	public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<WebDriver>();
-	
+
 	public static Logger log = Logger.getLogger(DriverFactory.class);
 
+	private static final String DRIVER_PATH = "./src/main/resources/";
 
 	/**
 	 * this method is used to initialize the driver on the basis of given
@@ -55,7 +56,7 @@ public class DriverFactory {
 
 		System.out.println("browser name is : " + browserName);
 		log.info("browser name is : " + browserName);
-		
+
 		optionsManager = new OptionsManager(prop);
 
 		if (browserName.equalsIgnoreCase("chrome")) {
@@ -68,7 +69,8 @@ public class DriverFactory {
 			} else {
 				// local execution:
 				log.info("Running tests on chrome -- local");
-				WebDriverManager.chromedriver().setup();
+				 WebDriverManager.chromedriver().setup();
+				//System.setProperty("webdriver.chrome.driver", DRIVER_PATH + "chromedriver");
 				tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
 			}
 
@@ -111,7 +113,7 @@ public class DriverFactory {
 		else {
 			System.out.println("please pass the right browser name : " + browserName);
 			log.error("please pass the right browser...." + browserName);
-			//info, error, warn, fatal
+			// info, error, warn, fatal
 		}
 
 		getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
