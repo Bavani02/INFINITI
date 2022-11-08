@@ -3,6 +3,7 @@ package com.qa.opencart.utils;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
@@ -23,8 +24,9 @@ import com.qa.opencart.factory.OptionsManager;
 
 public class ElementUtil {
 
-	private WebDriver driver;
+	public static WebDriver driver;
 	private Actions act;
+	public static Set<String> openWindows;
 	
 	public static Logger log = Logger.getLogger(ElementUtil.class);
 
@@ -551,7 +553,20 @@ public class ElementUtil {
 		return element;
 
 	}
-
+	/*
+	 * Method used to highlight a WebElement
+	 */
+    public static void highLight(WebElement element){
+    	try {
+    		Actions Act = new Actions(driver);
+			Act.moveToElement(element).build().perform();
+    		JavascriptExecutor js = (JavascriptExecutor) driver;
+    		js.executeScript("arguments[0].setAttribute('style','background: yellow; border:2px solid red;');", element);
+//			wait(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	 }
 	public WebElement retryingElement(By locator, int timeOut, int intervalTime) {
 		WebElement element = null;
 		int attempts = 0;
@@ -590,5 +605,67 @@ public class ElementUtil {
 	public void isElementPresnt() {
 		System.out.println("element is present");
 	}
+	
+	/*
+	 * Method used to get the number of open windows
+	 */
+	public static Set<String> getWindowsCount(){
+		Set<String> allWindows = driver.getWindowHandles();
+		return allWindows;
+	}
+
+	
+	/*
+	 * Method used to swap the window
+	 */
+    public static void swapWindow(int i){
+		openWindows = getWindowsCount();
+		String switchWindow = (String) openWindows.toArray()[i];
+		driver.switchTo().window(switchWindow);
+//		wait(2);
+		driver.manage().window().maximize();
+	 }
+
+	/*
+	 * Method used to switch to default frame
+	 */
+    public void defaultFrame(){
+		driver.switchTo().defaultContent();
+	}
+
+    /*
+	 * Method used to quit the drive in case of any failure
+	 */
+//    public static void exitBrowser(){
+//    	reportTest.log(LogStatus.FAIL, "Exception occured Test Case failed" );
+//		takeScreenShot(reportTest,"TestCaseFailedDueToException");
+//		Assert.fail();
+//	}
+	
+	/*
+	 * Method used to close all other window except parent
+	 */
+    public static void closeAndSwapToParent(){
+    	int windowsCount = getWindowsCount().size();
+    	for(int currWin = windowsCount; currWin >= 2 ; --currWin){
+    		driver.close();
+    		swapWindow(currWin-2);
+    	}
+    }
+    
+    /*
+	 * Method used to check whether element exist or not
+	 */
+    public boolean isElementExist(WebElement e){
+		try{
+            boolean ext = e.isDisplayed();
+            return ext;
+        }
+        catch(Exception ex){
+            return false;
+        }
+
+	}
+
 
 }

@@ -5,13 +5,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>April2022POMSeries</groupId>
-	<artifactId>April2022POMSeries</artifactId>
+	<groupId>INFTEA</groupId>
+	<artifactId>INFTEA</artifactId>
 	<version>0.0.3-SNAPSHOT</version>
 
-	<name>April2022POMSeries</name>
-	<!-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
+	<name>INFTEA</name>
+	
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,13 +20,7 @@
 		<aspectj.version>1.9.5</aspectj.version>
 	</properties>
 	
-	<distributionManagement>
-		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<url>http://admin:admin123@localhost:8081/repository/maven-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
+	
 	<dependencies>
 
 		<dependency>

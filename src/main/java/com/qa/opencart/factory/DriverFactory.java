@@ -22,11 +22,7 @@ import org.openqa.selenium.safari.SafariDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-/**
- * 
- * @author naveenautomationlabs
- *
- */
+
 public class DriverFactory {
 
 	public WebDriver driver;
@@ -233,8 +229,7 @@ public class DriverFactory {
 	 * take screenshot
 	 */
 	public static String getScreenshot(String methodName) {
-		File srcFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
-		// Users/naveenautomationlabs/Documents/workspace1/
+		File srcFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);		
 		String path = System.getProperty("user.dir") + "/screenshot/" + methodName + ".png";
 		File destination = new File(path);
 		try {
