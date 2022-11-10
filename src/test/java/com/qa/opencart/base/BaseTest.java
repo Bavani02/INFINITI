@@ -9,6 +9,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.asserts.SoftAssert;
 
@@ -33,7 +34,7 @@ public class BaseTest {
 
 	@Parameters({ "browser" , "browserversion"})
 	@BeforeTest
-	public void setup(String browserName, String browserVersion, ITestContext testContext) {
+	public void setup(@Optional String browserName, @Optional String browserVersion, ITestContext testContext) {
 		df = new DriverFactory();
 
 		prop = df.initProp();

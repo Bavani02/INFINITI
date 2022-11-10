@@ -20,7 +20,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.qa.opencart.factory.OptionsManager;
 
 public class ElementUtil {
 
@@ -556,13 +555,10 @@ public class ElementUtil {
 	/*
 	 * Method used to highlight a WebElement
 	 */
-    public static void highLight(WebElement element){
+    public void highLight(By locator){
     	try {
     		Actions Act = new Actions(driver);
-			Act.moveToElement(element).build().perform();
-    		JavascriptExecutor js = (JavascriptExecutor) driver;
-    		js.executeScript("arguments[0].setAttribute('style','background: yellow; border:2px solid red;');", element);
-//			wait(1);
+			Act.moveToElement(getElement(locator)).build().perform();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -666,6 +662,8 @@ public class ElementUtil {
         }
 
 	}
+    
+//   
 
 
 }

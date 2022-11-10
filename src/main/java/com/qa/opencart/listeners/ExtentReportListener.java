@@ -15,6 +15,7 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.aventstack.extentreports.reporter.configuration.Theme;
 
 import static com.qa.opencart.factory.DriverFactory.getScreenshot;
 
@@ -43,14 +44,13 @@ public class ExtentReportListener implements ITestListener {
 		
 		extentReports = new ExtentReports();
 		ExtentSparkReporter reporter = new ExtentSparkReporter(OUTPUT_FOLDER + FILE_NAME);
-		reporter.config().setReportName("Open Cart Automation Test Results");
+		reporter.config().setReportName("Automation Test Results");
 		extentReports.attachReporter(reporter);
-		extentReports.setSystemInfo("System", "MAC");
-		extentReports.setSystemInfo("Build#", "1.1");
-		extentReports.setSystemInfo("Team", "OpenCart QA Team");
-		extentReports.setSystemInfo("Customer Name", "NAL");
-
-		//extentReports.setSystemInfo("ENV NAME", System.getProperty("env"));
+		extentReports.setSystemInfo("System", "Window10");
+		extentReports.setSystemInfo("Team", "INFINITI QA Team");
+		reporter.config().setTheme(Theme.DARK);
+		reporter.config().setDocumentTitle("QA_Automation_Report");;
+		
 
 		return extentReports;
 	}
@@ -58,6 +58,7 @@ public class ExtentReportListener implements ITestListener {
 	@Override
 	public synchronized void onStart(ITestContext context) {
 		System.out.println("Test Suite started!");
+	
 		
 	}
 

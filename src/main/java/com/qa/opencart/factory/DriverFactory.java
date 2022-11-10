@@ -46,10 +46,6 @@ public class DriverFactory {
 
 		String browserName = prop.getProperty("browser");
 
-//		if(System.getenv("browserName")!=null) {
-//			browserName = System.getenv("browserName");
-//		}
-
 		System.out.println("browser name is : " + browserName);
 		log.info("browser name is : " + browserName);
 
@@ -169,19 +165,15 @@ public class DriverFactory {
 		prop = new Properties();
 		FileInputStream ip = null;
 
-		// commnd line args --> maven
-		// mvn clean install -Denv="stage" -Dbrowser="chrome"
-		// mvn clean install
-
 		String envName = System.getProperty("env");
 		// String envName = System.getenv("env");
 		System.out.println("Running test cases on environment: " + envName);
 		log.info("Running test cases on env: " + envName);
 
 		if (envName == null) {
-			System.out.println("No env is given...hence running it on QA env by default....");
+			System.out.println("No env is given...hence running it on env by default....");
 			try {
-				ip = new FileInputStream("./src/test/resources/config/qa.config.properties");
+				ip = new FileInputStream("./src/test/resources/config/config.properties");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
